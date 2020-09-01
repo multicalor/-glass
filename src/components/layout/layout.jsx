@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import fetch from 'node-fetch';
-import loadWS from '../../app/WebSocket'
+// import loadWS from '../../app/WebSocket'
 import loadApi from '../../app/api';
 import { updateData, updateWS, updateCurrency } from '../../app/actions';
 
