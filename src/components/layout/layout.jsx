@@ -16,11 +16,11 @@ import './layout.css'
 class Layout extends Component {
 
     componentDidMount() {
-        this.getExchangeGlassAPI()
-        // this.startStreemExchangeGlassWS()
+        this.getExchangeGlass()
+
     }
 
-    getExchangeGlassAPI = () => {
+    getExchangeGlass = () => {
         loadApi(this.props.currency)
             .then(data => {
                 this.props.updateData(data);
@@ -63,9 +63,10 @@ class Layout extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+
     return {
         currency: state.currency,
+        binanceDataWS:  state.binanceDataWS
     }
 }
 
