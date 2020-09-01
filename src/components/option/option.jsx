@@ -1,35 +1,51 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { updateCurrency } from '../../app/actions';
 
 class Option extends Component {
 
     state = {
         options: ['BTCUSDT', 'BNBBTC', 'ETHBTC'],
-        option: '',
+        log: [],
     }
 
 
     handleSelectChange = ({ target: { value } }) => {
-        const {changeSymbol} = this.props;
-        changeSymbol(value)
-        // console.log(test)
+        const {updateCurrency, currency} = this.props;
+        const {log} = this.state;
+        updateCurrency(value)
+        this.setState(({log}) => log.unshift(currency))
+        console.log(this.state.log)
     }
 
     render() {
-        const { options, option } = this.state;
+        const { options, log } = this.state;
+        const { currency } = this.props;
         
+
         return (
             <Fragment>
-                <select defaultValue={option} onChange={this.handleSelectChange}>
+                <select defaultValue={currency} onChange={this.handleSelectChange}>
                     {options.map((value) => (
                         <option key={value} value={value}>{value}</option>
                     ))}
                 </select>
+                <ul>
+                    {log.map(symb => (
+                        <li key={symb}>{symb}</li>
+                    ))}
+                </ul>
             </Fragment>
         );
     }
 
 }
 
-export default Option;
+const mapStateToProps = (state) => {
+    return {
+        currency: state.currency
+    }
+}
 
-// onChange={this.handleSelectChange}
+export default connect(mapStateToProps, { updateCurrency })(Option);
+

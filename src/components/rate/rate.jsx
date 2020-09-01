@@ -1,25 +1,41 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import './rate.css'
 
 
 class Rate extends Component {
 
-    state = {
-
-    }
     render() {
 
-        const { APIData, WSData } = this.props;
-        // console.log(WSData)
+        const { binanceData, binanceDataWS } = this.props;
         const bids = []
         const asks = []
 
-        for (let index in APIData.bids) {
-            bids.push(APIData.bids[index])
+        for (let index in binanceDataWS.b) {
+            bids.push(binanceDataWS.b[index])
         }
-        for (let index in APIData.asks) {
-            asks.push(APIData.asks[index])
+        for (let index in binanceDataWS.a) {
+            asks.push(binanceDataWS.a[index])
         }
+
+        for (let index in binanceData.bids) {
+            bids.push(binanceData.bids[index])
+            if (bids.length > 500) {
+                bids.shift()
+
+            }
+        }
+        for (let index in binanceData.asks) {
+            asks.push(binanceData.asks[index])
+            if (asks.length > 500) {
+                asks.shift()
+
+            }
+        }
+
+
+
+
 
         return (
             <Fragment>
@@ -60,7 +76,13 @@ class Rate extends Component {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        binanceData: state.binanceData,
+        binanceDataWS: state.binanceDataWS,
+    }
+}
 
+export default connect(mapStateToProps, null)(Rate);
 
-
-export default Rate;
+// Component => Action => Reducer => connect + mapStateToProps => Component
